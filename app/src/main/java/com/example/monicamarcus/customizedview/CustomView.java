@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.Paint.Style;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.content.res.Resources;
 import android.widget.Toast;
 
 /**
@@ -21,34 +20,28 @@ import android.widget.Toast;
 public class CustomView extends View {
     private Paint paint;
     private Rect[] rectangle = new Rect[4];
-    private Style style;
     private TextPaint textPaint;
     String text = "Section ";
 
     public CustomView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        super(context,attrs);
 
         paint = new Paint();
         paint.setColor(Color.BLACK);
-        style = Style.STROKE;
+        Style style = Style.STROKE;
         paint.setStyle(style);
 
         textPaint = new TextPaint();
         textPaint.setColor(Color.BLACK);
         textPaint.setTextSize(20);
         textPaint.setTextAlign(Align.CENTER);
+
+        initRectangles();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawColor(Color.WHITE);
-        int x = canvas.getWidth()/2;
-        int y = canvas.getHeight()/2;
-        rectangle[0] = new Rect(6, 6, x, y);
-        rectangle[1] = new Rect(6 + x, 6, x + x, y);
-        rectangle[2] = new Rect(6, 6 + y, x, y + y);
-        rectangle[3] = new Rect(6 + x, 6 + y, x + x, y + y);
-
         for (int i = 0; i < rectangle.length; i++) {
             canvas.drawRect(rectangle[i], paint);
             int width = rectangle[i].width();
@@ -59,12 +52,15 @@ public class CustomView extends View {
         }
     }
 
-    public static int getScreenWidth() {
-        return Resources.getSystem().getDisplayMetrics().widthPixels;
-    }
-
-    public static int getScreenHeight() {
-        return Resources.getSystem().getDisplayMetrics().heightPixels;
+    private void initRectangles() {
+        int left = 6;
+        int up = 6;
+        int x = 300;
+        int y = 300;
+        rectangle[0] = new Rect(left, up, x, y);
+        rectangle[1] = new Rect(left + x, up, x + x, y);
+        rectangle[2] = new Rect(left, up + y, x, y + y);
+        rectangle[3] = new Rect(left + x, up + y, x + x, y + y);
     }
 
     @Override
